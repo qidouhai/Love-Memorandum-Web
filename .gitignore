@@ -2,3 +2,5 @@ users.json
 *.db
 *.pyc
 LoveMemorandum/static/userdata
+log/
+flask_config.py

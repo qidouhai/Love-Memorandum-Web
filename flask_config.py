@@ -11,10 +11,6 @@ class Config:
     ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif']
     POSTS_PER_PAGE = 10
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
-    USERNAME_JASON = 'Jason'
-    PASSWORD_JASON = '19970805'
-    USERNAME_TIFFANY = 'Tiffany'
-    PASSWORD_TIFFANY = '19970627'
     MAIL_SERVER = '163.177.90.125'
     MAIL_PORT = 587
     MAIL_USE_TLS = True

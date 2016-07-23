@@ -1,0 +1,39 @@
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">{{ config['Title'] }}</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="{{url_for('show_entries')}}">主页</a>
+                </li>
+                {% if current_user.is_authenticated %}
+                    {% for user in users %}
+                        <li>
+                            <a href="{{url_for('show_entries', name='{{ user }}')}}">只看 {{ user }}</a>
+                        </li>
+                    {% endfor %}
+                {% endif %}
+                <li>
+                    <a href="{{url_for('about')}}">关于我们</a>
+                </li>
+                {% if not current_user.is_authenticated %}
+                    <li>
+                        <a href="{{url_for('login_page')}}">登录</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="{{url_for('logout')}}">退出 {{current_user.get_id()}}</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>

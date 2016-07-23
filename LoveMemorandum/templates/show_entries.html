@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block page_content %}
+    {{ wtf.quick_form(form) }}
+    {% include 'paginate.html' %}
+    <ul class="entries">
+        {% for entry in entries.items %}
+            <li>
+                <div class="{{ entry.sender }}">
+                    <h2 class="title">{{ entry.title }}</h2>
+                    <p class="info">由 {{ entry.sender }} 在 {{ moment(entry.time).format('LLL') }} 发布。</p>
+                    <p class="text">{{ entry.text|safe }}</p>
+                    {% if entry.url %}
+                        <div align="center">
+                            <img src="{{ url_for('static', filename = 'userdata/uploads/'+entry.url) }}" />
+                        </div>
+                    {% endif %}
+                </div>
+            </li>
+        {% else %}
+            <li>
+                <div><em>还没有笔记呢。添加一条吧。</em></div>
+            </li>
+        {% endfor %}
+    </ul>
+    {% include 'paginate.html' %}
+{% endblock %}

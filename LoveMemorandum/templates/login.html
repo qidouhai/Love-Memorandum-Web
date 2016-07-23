@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block page_content %}
+	<div class="page-header">
+		<h1>登录</h1>
+	</div>
+	<div class="form-horizontal">
+		<form action="{{ url_for('login_submit') }}" method="post" class="form" role="form">
+			<div style="display:none;">
+				<input id="csrf_token" name="csrf_token" type="hidden" value="1469260161##b4c085796d2382208b012824d0bc98f5fa6e3a27">
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon"><b>用户</b></span>
+				<input type="text" id="username" name="username" class="form-control" required="required" autocomplete="off"  autofocus="autofocus">
+				<span class="input-group-btn">
+					<a id="clear" name="clear" href="#" class="btn btn-danger" type="button">清除</a>
+				</span>
+			</div>
+			<br>
+			<div class="input-group">
+				<span class="input-group-addon"><b>密码</b></span>
+				<input id="password" name="password" type="password" class="form-control" required="required" autocomplete="off">
+				<span class="input-group-btn">
+					<button id="submit" name="submit" type="submit"  class="btn btn-success" type="button">登录</button>
+				</span>
+			</div>
+		</form>
+	</div>
+{% endblock %}

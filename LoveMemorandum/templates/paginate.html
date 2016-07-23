@@ -1,0 +1,1 @@
+<ul class="pager"><li class="previous"><a href="{% if entries.has_prev %}{{ url_for('show_entries', page = entries.prev_num, name = name) }}{% endif %}"><< 新的回忆</a></li><li class="next"><a href="{% if entries.has_next %}{{ url_for('show_entries', page = entries.next_num, name = name) }}{% endif %}">旧的回忆 >></a></li></ul>

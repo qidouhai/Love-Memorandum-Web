@@ -1,0 +1,4 @@
+users.json
+*.db
+*.pyc
+LoveMemorandum/static/userdata

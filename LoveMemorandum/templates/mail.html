@@ -1,0 +1,7 @@
+<p>{{ dict['sender'] }} 刚刚发布了一条新消息：</p>
+<p>标题：{{ dict['title'] }}</p>
+<p>正文：{{ dict['text']|safe }}</p>
+{% if "filename" in dict %}
+	<p><img width="100%" src="{{ url_for('static', filename = 'userdata/uploads/' + dict['filename'], _external=True) }}"></p>
+{% endif %}
+<p>去 Jason 和 Tiffany 的记事本 (https://lihanming.me) 看看？</p>

@@ -1,0 +1,8 @@
+{% extends "layout.html" %}
+{% block page_content %}
+	<div align="center">
+		<p><img src="{{ url_for('static', filename='cover.jpg') }}" /></p>
+		<h2>欢迎访问 {{ config['Title'] }}。</h2>
+		<p>请<a href="{{ url_for('login_page') }}">登录</a>。</p>
+	</div>
+{% endblock %}

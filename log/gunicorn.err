@@ -1,0 +1,37 @@
+[2016-07-03 04:29:59 +0000] [12131] [INFO] Starting gunicorn 19.6.0
+[2016-07-03 04:29:59 +0000] [12131] [INFO] Listening at: http://127.0.0.1:52766 (12131)
+[2016-07-03 04:29:59 +0000] [12131] [INFO] Using worker: gevent
+[2016-07-03 04:29:59 +0000] [12149] [INFO] Booting worker with pid: 12149
+/usr/local/lib/python2.7/dist-packages/flask_sqlalchemy/__init__.py:800: UserWarning: SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future.  Set it to True to suppress this warning.
+  warnings.warn('SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future.  Set it to True to suppress this warning.')
+[2016-07-03 04:35:13 +0000] [12131] [INFO] Handling signal: term
+[2016-07-03 04:41:18 +0000] [13547] [INFO] Starting gunicorn 19.6.0
+[2016-07-03 04:41:18 +0000] [13547] [INFO] Listening at: http://127.0.0.1:52766 (13547)
+[2016-07-03 04:41:18 +0000] [13547] [INFO] Using worker: sync
+[2016-07-03 04:41:18 +0000] [13552] [INFO] Booting worker with pid: 13552
+/usr/local/lib/python2.7/dist-packages/flask_sqlalchemy/__init__.py:800: UserWarning: SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future.  Set it to True to suppress this warning.
+  warnings.warn('SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future.  Set it to True to suppress this warning.')
+[2016-07-03 04:42:13 +0000] [13547] [INFO] Handling signal: term
+[2016-07-03 04:42:13 +0000] [13552] [INFO] Worker exiting (pid: 13552)
+[2016-07-03 04:42:40 +0000] [13570] [INFO] Starting gunicorn 19.6.0
+[2016-07-03 04:42:40 +0000] [13570] [INFO] Listening at: http://127.0.0.1:52766 (13570)
+[2016-07-03 04:42:40 +0000] [13570] [INFO] Using worker: sync
+[2016-07-03 04:42:40 +0000] [13575] [INFO] Booting worker with pid: 13575
+/usr/local/lib/python2.7/dist-packages/flask_sqlalchemy/__init__.py:800: UserWarning: SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future.  Set it to True to suppress this warning.
+  warnings.warn('SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future.  Set it to True to suppress this warning.')
+[2016-07-15 10:49:19 +0000] [13570] [INFO] Handling signal: term
+[2016-07-15 10:54:14 +0000] [11578] [INFO] Starting gunicorn 19.6.0
+[2016-07-15 10:54:14 +0000] [11578] [INFO] Listening at: http://127.0.0.1:52766 (11578)
+[2016-07-15 10:54:14 +0000] [11578] [INFO] Using worker: sync
+[2016-07-15 10:54:14 +0000] [11589] [INFO] Booting worker with pid: 11589
+/usr/local/lib/python2.7/dist-packages/flask_sqlalchemy/__init__.py:800: UserWarning: SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future.  Set it to True to suppress this warning.
+  warnings.warn('SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future.  Set it to True to suppress this warning.')
+[2016-07-16 08:59:19 +0000] [11578] [INFO] Handling signal: term
+[2016-07-16 08:59:19 +0000] [11589] [INFO] Worker exiting (pid: 11589)
+[2016-07-16 08:59:19 +0000] [11578] [INFO] Shutting down: Master
+[2016-07-16 09:12:07 +0000] [1808] [INFO] Starting gunicorn 19.6.0
+[2016-07-16 09:12:07 +0000] [1808] [INFO] Listening at: http://127.0.0.1:52766 (1808)
+[2016-07-16 09:12:07 +0000] [1808] [INFO] Using worker: sync
+[2016-07-16 09:12:07 +0000] [1821] [INFO] Booting worker with pid: 1821
+/usr/local/lib/python2.7/dist-packages/flask_sqlalchemy/__init__.py:800: UserWarning: SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future.  Set it to True to suppress this warning.
+  warnings.warn('SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future.  Set it to True to suppress this warning.')

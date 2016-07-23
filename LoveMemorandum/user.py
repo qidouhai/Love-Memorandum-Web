@@ -29,12 +29,8 @@ def getUser(username, password):
     for user in users:
         if user[0] == username:
             if (password == user[1]):
-                print u"成功"
                 login_user(CurrentUser(user[0]))
                 return True
-            else:
-                print "没找到"
-    print u"没找到，失败"
     return False
 
 

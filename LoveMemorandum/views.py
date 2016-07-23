@@ -36,8 +36,8 @@ def before_request():  # 在执行用户请求之前
 @app.errorhandler(404)
 @app.errorhandler(500)
 @app.route('/about/')
-def about(e=None):
-    return render_template('about.html')
+def about(e=200):
+    return render_template('about.html'), e
 
 
 @app.route('/logout/')

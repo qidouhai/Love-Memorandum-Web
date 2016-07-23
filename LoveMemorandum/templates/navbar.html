@@ -15,9 +15,9 @@
                     <a href="{{url_for('show_entries')}}">主页</a>
                 </li>
                 {% if current_user.is_authenticated %}
-                    {% for user in users %}
+                    {% for user in config['users'] %}
                         <li>
-                            <a href="{{url_for('show_entries', name='{{ user }}')}}">只看 {{ user }}</a>
+                            <a href="{{url_for('show_entries', name=user)}}">只看 {{ user }}</a>
                         </li>
                     {% endfor %}
                 {% endif %}

@@ -22,6 +22,7 @@ bootstrap = Bootstrap(app)
 moment = Moment(app)
 
 app.config['Title'] = u"{str} 的记事本".format(str=u" 和 ".join(getAllUser()))
+app.config['users'] = getAllUser()
 
 
 @app.before_request

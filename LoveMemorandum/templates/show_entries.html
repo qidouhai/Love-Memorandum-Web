@@ -1,27 +1,31 @@
 {% extends "layout.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block page_content %}
+
+
     {{ wtf.quick_form(form) }}
     {% include 'paginate.html' %}
-    <ul class="entries">
+    <div class="row">
         {% for entry in entries.items %}
-            <li>
-                <div class="{{ entry.sender }}">
-                    <h2 class="title">{{ entry.title }}</h2>
-                    <p class="info">由 {{ entry.sender }} 在 {{ moment(entry.time).format('LLL') }} 发布。</p>
-                    <p class="text">{{ entry.text|safe }}</p>
-                    {% if entry.url %}
-                        <div align="center">
-                            <img src="{{ url_for('static', filename = 'userdata/uploads/'+entry.url) }}" />
-                        </div>
-                    {% endif %}
-                </div>
-            </li>
-        {% else %}
-            <li>
-                <div><em>还没有笔记呢。添加一条吧。</em></div>
-            </li>
-        {% endfor %}
-    </ul>
+    	<div class="panel-group col-xs-12 col-sm-6 col-md-4" id="original-{{ entries.items.index(entry) }}" role="tablist" aria-multiselectable="true">
+    		<div class="panel panel-default">
+    			<div id="heading-{{ entries.items.index(entry) }}" role="tab" class="panel-heading">
+    				<h4 class="panel-title"><a href="#collapse-{{ entries.items.index(entry) }}" role="button" data-toggle="collapse" data-parent="#original-{{ entries.items.index(entry) }}" aria-controls="collapse-{{ entries.items.index(entry) }}" aria-expanded="true">{% if entry.title %}{{ entry.title }}{% else %}无题{% endif %}</a></h4>
+    			</div>
+    			<div id="collapse-{{ entries.items.index(entry) }}" class="panel-collapse collapse in {{ entry.sender }}" role="tabpanel" aria-labelledby="heading-{{ entries.items.index(entry) }}">
+            <div class="panel-body">
+              <p class="info">由 {{ entry.sender }} 在 {{ moment(entry.time).format('LLL') }} 发布。</p>
+              <p class="text">{{ entry.text|safe }}</p>
+				    </div>
+            {% if entry.url %}
+                <div class="postPicture"><img src="{{ url_for('static', filename = 'userdata/uploads/'+entry.url) }}"></div>
+            {% endif %}
+    			</div>
+    		</div>
+    	</div>
+  {% endfor %}
+
+    </div>
+
     {% include 'paginate.html' %}
 {% endblock %}

@@ -11,27 +11,15 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li>
-                    <a href="{{url_for('show_entries')}}">主页</a>
-                </li>
+                <li><a href="{{url_for('show_entries')}}">主页</a></li>
                 {% if current_user.is_authenticated %}
-                    {% for user in config['users'] %}
-                        <li>
-                            <a href="{{url_for('show_entries', name=user)}}">只看 {{ user }}</a>
-                        </li>
-                    {% endfor %}
-                {% endif %}
-                <li>
-                    <a href="{{url_for('about')}}">关于我们</a>
-                </li>
-                {% if not current_user.is_authenticated %}
-                    <li>
-                        <a href="{{url_for('login_page')}}">登录</a>
-                    </li>
+                  {% for user in config['users'] %}
+                    <li><a href="{{url_for('show_entries', name=user)}}">只看 {{ user }}</a></li>
+                  {% endfor %}
+                  <li><a href="{{url_for('logout')}}">退出 {{current_user.get_id()}}</a></li>
                 {% else %}
-                    <li>
-                        <a href="{{url_for('logout')}}">退出 {{current_user.get_id()}}</a>
-                    </li>
+                  <li><a href="{{url_for('about')}}">关于我们</a></li>
+                  <li><a href="{{url_for('login_page')}}">登录</a></li>
                 {% endif %}
             </ul>
         </div>

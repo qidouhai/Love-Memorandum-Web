@@ -5,7 +5,6 @@ from LoveMemorandum import app, lm
 from flask import request, redirect, url_for, render_template, flash, jsonify
 # Bootstrap 界面
 from flask_bootstrap import Bootstrap
-# 用户界面时间本地化
 from flask_moment import Moment
 # 用户界面时间本地化
 # 数据库操作
@@ -21,8 +20,9 @@ from flask_login import login_required, logout_user, current_user
 bootstrap = Bootstrap(app)
 moment = Moment(app)
 
-app.config['Title'] = u"{str} 的记事本".format(str=u" 和 ".join(getAllUser()))
 app.config['users'] = getAllUser()
+app.config['Title'] = u"{str} 的记事本".format(
+    str=u" 和 ".join(app.config['users']))
 
 
 @app.before_request

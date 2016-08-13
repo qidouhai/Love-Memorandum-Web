@@ -1,8 +1,9 @@
 {% extends "layout.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block page_content %}
+  <p id="name" style="display:none">{{ name }}</p>
+  <p id="page" style="display:none">{{ page }}</p>
   {{ wtf.quick_form(form) }}
-  {% include 'paginate.html' %}
   <div class="grid">
     {% for entry in entries.items %}
       <div class="grid-item">
@@ -13,7 +14,7 @@
             </h3>
           </div>
           <div class="panel-body {{ entry.sender }}">
-            <p class="info">由 {{ entry.sender }} 在 {{ moment(entry.time).fromNow() }} 发布。</p>
+            <p class="info">由 {{ entry.sender }} 在 {{ moment(entry.time).fromNow() }} 发布</p>
             <p class="text">{{ entry.text|safe }}</p>
           </div>
           {% if entry.url %}<div class="postPicture"><img src="{{ url_for('static', filename = 'userdata/uploads/'+entry.url) }}"></div>{% endif %}
@@ -21,7 +22,6 @@
       </div>
     {% endfor %}
    </div>
-  {% include 'paginate.html' %}
 {% endblock %}
 {% block scripts %}
   {{ super() }}

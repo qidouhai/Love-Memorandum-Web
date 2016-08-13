@@ -1,12 +1,14 @@
 body {
     font-family: sans-serif;
     background: #eee;
+    padding-top: 70px;
+    padding-bottom: 70px;
 }
 
 a, h1, h2 {
     color: #377ba8;
 }
-
+.hide {display:none;}
 .info {
     float: right;
 }
@@ -24,9 +26,6 @@ a, h1, h2 {
     max-width: 100%;
 }
 
-.pager {
-    clear: both;
-}
 
 .grid-sizer, .grid-item {
     padding: 15px; float:left;

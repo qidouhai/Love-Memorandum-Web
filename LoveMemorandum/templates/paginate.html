@@ -1,1 +1,9 @@
-<ul class="pager"><li class="previous"><a href="{% if entries.has_prev %}{{ url_for('show_entries', page = entries.prev_num, name = request.args['name'] if 'name' in request.args else 'all') }}{% endif %}"><< 新的回忆</a></li><li class="next"><a href="{% if entries.has_next %}{{ url_for('show_entries', page = entries.next_num, name = request.args['name'] if 'name' in request.args else 'all') }}{% endif %}">旧的回忆 >></a></li></ul>
+<nav class="navbar navbar-default navbar-fixed-bottom">
+	<div class="container">
+		<div class="btn-group btn-group-justified" role="group"  style="margin-top:8px">
+			<a class="Pager btn btn-primary" href="{% if entries.has_prev %}{{ url_for('show_entries', page = entries.prev_num, name = request.args['name'] if 'name' in request.args else 'all') }}{% endif %}">新的回忆</a>
+			<div  id="load" class="btn-group hide"><button role="button" class="btn btn-success" onclick="getContent()">更多的回忆</button></div>
+			<a class="Pager btn btn-primary" href="{% if entries.has_next %}{{ url_for('show_entries', page = entries.next_num, name = request.args['name'] if 'name' in request.args else 'all') }}{% endif %}">旧的回忆</a>
+		</div>
+	</div>
+</nav>

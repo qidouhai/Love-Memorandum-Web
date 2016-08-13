@@ -64,8 +64,8 @@ def show_entries():
     flash(u"您的浏览器不支持 JavaScript 或您已禁用 JavaScript。部分高级功能可能无法使用。",
           category='danger JSNotice')
     # 将留言信息编组成字典，返回给渲染模板
-    return render_template('show_entries.html', form=postform,
-                           entries=entries)
+    return render_template('show_entries.html', name = name, form=postform,
+                           entries=entries, page=page)
 
 
 @app.route('/ajax/', methods=['GET'])

@@ -61,6 +61,8 @@ def show_entries():
             page, app.config['POSTS_PER_PAGE'], False)
     else:
         entries = entries.paginate(page, app.config['POSTS_PER_PAGE'], False)
+    flash(u"您的浏览器不支持 JavaScript 或您已禁用 JavaScript。部分高级功能可能无法使用。",
+          category='danger JSNotice')
     # 将留言信息编组成字典，返回给渲染模板
     return render_template('show_entries.html', form=postform,
                            entries=entries)
@@ -79,9 +81,14 @@ def show_entries_ajax():
         entries = entries.paginate(page, app.config['POSTS_PER_PAGE'], False)
     a = []
     for entry in entries.items:
-        a.append({"title": entry.title, "text": entry.text,
-                  "sender": entry.sender, "time": entry.time,
-                  "url": entry.url})
+        di = {"title": entry.title, "text": entry.text,
+              "sender": entry.sender, "time": entry.time}
+        if entry.url:
+            di["url"] = url_for('static',
+                                filename='userdata/uploads/' + entry.url)
+        else:
+            di["url"] = ""
+        a.append(di)
     # 将留言信息编组成字典，返回给渲染模板
     return jsonify({"items": a})
 
@@ -118,7 +125,6 @@ def login_submit():
     loginform = LoginForm()
     username = loginform.username.data
     password = loginform.password.data
-    print username, password
     if getUser(username, password):
         flash(u'欢迎回来，亲爱的 ' + username + u'。')
         return redirect(url_for('show_entries'))  # 登录成功，返回信息

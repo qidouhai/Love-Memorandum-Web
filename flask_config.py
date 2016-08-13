@@ -9,7 +9,7 @@ class Config:
     SECRET_KEY = u'Jason & Tiffany'
     UPLOAD_FOLDER = u'./LoveMemorandum/static/userdata/uploads/'
     ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif']
-    POSTS_PER_PAGE = 10
+    POSTS_PER_PAGE = 5
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     MAIL_SERVER = '163.177.90.125'
     MAIL_PORT = 587

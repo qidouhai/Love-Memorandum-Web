@@ -29,7 +29,7 @@ a, h1, h2 {
 }
 
 .grid-sizer, .grid-item {
-    padding: 15px;
+    padding: 15px; float:left;
 }
 
 @media (max-width: 768px) {

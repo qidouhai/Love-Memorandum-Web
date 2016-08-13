@@ -12,7 +12,7 @@ from database import Entries, init_database, newEntry
 # 表单
 from forms import PostForm, LoginForm
 # 邮件
-from mail import send_email  # 不需要邮件注释本行即可
+# from mail import send_email  # 不需要邮件注释本行即可
 # 文件上传安全性验证
 from file import uploads_directory, upload_file
 # 用户验证
@@ -101,7 +101,7 @@ def new_entry():
          "sender": current_user.username}
     if postform.photo.has_file():  # 如果有文件
         a["filename"] = upload_file(a, postform.photo.data)
-    send_email(a)
+    # send_email(a) # 邮件功能暂停
     newEntry(a)
     flash(u'新记事已经发布了呢～', category="success")
     return redirect(url_for('show_entries'))

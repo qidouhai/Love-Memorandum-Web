@@ -5,30 +5,34 @@ from LoveMemorandum import app, lm
 from flask import request, redirect, url_for, render_template, flash, jsonify
 # Bootstrap 界面
 from flask_bootstrap import Bootstrap
-from flask_moment import Moment
 # 用户界面时间本地化
+from flask_moment import Moment
 # 数据库操作
 from database import Entries, init_database, newEntry
-# 管理器
+# 表单
 from forms import PostForm, LoginForm
-from mail import send_email
+# 邮件
+from mail import send_email  # 不需要邮件注释本行即可
 # 文件上传安全性验证
 from file import uploads_directory, upload_file
+# 用户验证
 from user import getUser, getAllUser
 from flask_login import login_required, logout_user, current_user
 
 bootstrap = Bootstrap(app)
 moment = Moment(app)
 
-app.config['users'] = getAllUser()
-app.config['Title'] = u"{str} 的记事本".format(
-    str=u" 和 ".join(app.config['users']))
+
+
 
 
 @app.before_request
 def before_request():  # 在执行用户请求之前
     init_database()
-    uploads_directory()  # 建立上传目录
+    uploads_directory() 
+    app.config['users'] = getAllUser()
+    app.config['Title'] = u"{str} 的记事本".format(
+        str=u" 和 ".join(app.config['users']))
 
 # 静态页面部分
 
@@ -42,7 +46,7 @@ def about(e=200):
 
 @app.route('/logout/')
 def logout():
-    flash(u'再见，亲爱的～')
+    flash(u'再见，亲爱的～', category="success")
     logout_user()
     return redirect(url_for('show_entries'))
 
@@ -52,43 +56,38 @@ def logout():
 @app.route('/', methods=['GET'])
 @login_required
 def show_entries():
-    name = request.args["name"] if "name" in request.args else u"all"
-    page = int(request.args["page"]) if "page" in request.args else 1
-    postform = PostForm()
-    entries = Entries.query.order_by(Entries.id.desc())
-    if name != u"all":
-        entries = entries.filter(Entries.sender == name).paginate(
-            page, app.config['POSTS_PER_PAGE'], False)
-    else:
-        entries = entries.paginate(page, app.config['POSTS_PER_PAGE'], False)
+    name, page, entries = lookUp(request.args)
     flash(u"您的浏览器不支持 JavaScript 或您已禁用 JavaScript。部分高级功能可能无法使用。",
           category='danger JSNotice')
     # 将留言信息编组成字典，返回给渲染模板
-    return render_template('show_entries.html', name = name, form=postform,
+    return render_template('show_entries.html',
+                           name=name, form=PostForm(),
                            entries=entries, page=page)
+
+
+def lookUp(a):
+    name = a["name"] if "name" in a else u"all"
+    page = int(a["page"]) if "page" in a else 1
+    entries = Entries.query.order_by(Entries.id.desc())
+    if name != u"all":
+        entries = entries.filter(Entries.sender == name)
+    entries = entries.paginate(page, app.config['POSTS_PER_PAGE'], False)
+    return name, page, entries
 
 
 @app.route('/ajax/', methods=['GET'])
 @login_required
 def show_entries_ajax():
-    name = request.args["name"] if "name" in request.args else u"all"
-    page = int(request.args["page"]) if "page" in request.args else 1
-    entries = Entries.query.order_by(Entries.id.desc())
-    if name != u"all":
-        entries = entries.filter(Entries.sender == name).paginate(
-            page, app.config['POSTS_PER_PAGE'], False)
-    else:
-        entries = entries.paginate(page, app.config['POSTS_PER_PAGE'], False)
+    name, page, entries = lookUp(request.args)
     a = []
     for entry in entries.items:
-        di = {"title": entry.title, "text": entry.text,
-              "sender": entry.sender, "time": entry.time}
         if entry.url:
-            di["url"] = url_for('static',
-                                filename='userdata/uploads/' + entry.url)
+            url = url_for('static',
+                          filename='userdata/uploads/{0}'.format(entry.url))
         else:
-            di["url"] = ""
-        a.append(di)
+            url = ""
+        a.append({"title": entry.title, "text": entry.text,
+                  "sender": entry.sender, "time": entry.time, "url": url})
     # 将留言信息编组成字典，返回给渲染模板
     return jsonify({"items": a})
 
@@ -104,7 +103,7 @@ def new_entry():
         a["filename"] = upload_file(a, postform.photo.data)
     send_email(a)
     newEntry(a)
-    flash(u'新记事已经发布了呢～')
+    flash(u'新记事已经发布了呢～', category="success")
     return redirect(url_for('show_entries'))
 # 登录处理部分
 
@@ -126,9 +125,9 @@ def login_submit():
     username = loginform.username.data
     password = loginform.password.data
     if getUser(username, password):
-        flash(u'欢迎回来，亲爱的 ' + username + u'。')
+        flash(u'欢迎回来，亲爱的 ' + username + u'。', category="success")
         return redirect(url_for('show_entries'))  # 登录成功，返回信息
     else:
-        flash(u'用户名或者密码不对劲哦～再试一次？')
+        flash(u'用户名或者密码不对劲哦～再试一次？', category="danger")
     return redirect(url_for("login_page"))
 # 登录处理部分

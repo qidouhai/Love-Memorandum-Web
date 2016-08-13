@@ -4,6 +4,7 @@
   <p id="name" style="display:none">{{ name }}</p>
   <p id="page" style="display:none">{{ page }}</p>
   {{ wtf.quick_form(form) }}
+  {% include 'paginate.html' %}
   <div class="grid">
     {% for entry in entries.items %}
       <div class="grid-item">

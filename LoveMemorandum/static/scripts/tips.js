@@ -7,6 +7,7 @@ function reMasonry() {
 }
 
 $(function() {
+    reMasonry;
     $('.grid').imagesLoaded(reMasonry);
 });
 

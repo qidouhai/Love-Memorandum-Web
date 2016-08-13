@@ -1,31 +1,31 @@
 {% extends "layout.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block page_content %}
-
-
-    {{ wtf.quick_form(form) }}
-    {% include 'paginate.html' %}
-    <div class="row">
-        {% for entry in entries.items %}
-    	<div class="panel-group col-xs-12 col-sm-6 col-md-4" id="original-{{ entries.items.index(entry) }}" role="tablist" aria-multiselectable="true">
-    		<div class="panel panel-default">
-    			<div id="heading-{{ entries.items.index(entry) }}" role="tab" class="panel-heading">
-    				<h4 class="panel-title"><a href="#collapse-{{ entries.items.index(entry) }}" role="button" data-toggle="collapse" data-parent="#original-{{ entries.items.index(entry) }}" aria-controls="collapse-{{ entries.items.index(entry) }}" aria-expanded="true">{% if entry.title %}{{ entry.title }}{% else %}无题{% endif %}</a></h4>
-    			</div>
-    			<div id="collapse-{{ entries.items.index(entry) }}" class="panel-collapse collapse in {{ entry.sender }}" role="tabpanel" aria-labelledby="heading-{{ entries.items.index(entry) }}">
-            <div class="panel-body">
-              <p class="info">由 {{ entry.sender }} 在 {{ moment(entry.time).format('LLL') }} 发布。</p>
-              <p class="text">{{ entry.text|safe }}</p>
-				    </div>
-            {% if entry.url %}
-                <div class="postPicture"><img src="{{ url_for('static', filename = 'userdata/uploads/'+entry.url) }}"></div>
-            {% endif %}
-    			</div>
-    		</div>
-    	</div>
-  {% endfor %}
-
-    </div>
-
-    {% include 'paginate.html' %}
+  {{ wtf.quick_form(form) }}
+  {% include 'paginate.html' %}
+  <div class="grid">
+    {% for entry in entries.items %}
+      <div class="grid-item">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+            {% if entry.title %}{{ entry.title }}{% else %}无题{% endif %}
+            </h3>
+          </div>
+          <div class="panel-body {{ entry.sender }}">
+            <p class="info">由 {{ entry.sender }} 在 {{ moment(entry.time).format('LLL') }} 发布。</p>
+            <p class="text">{{ entry.text|safe }}</p>
+          </div>
+          {% if entry.url %}<div class="postPicture"><img src="{{ url_for('static', filename = 'userdata/uploads/'+entry.url) }}"></div>{% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {% include 'paginate.html' %}
+{% endblock %}
+{% block scripts %}
+  {{ super() }}
+  <script src="//cdn.bootcss.com/masonry/4.1.0/masonry.pkgd.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery.imagesloaded/4.1.0/imagesloaded.pkgd.min.js"></script>
+  <script src="{{ url_for('static', filename='scripts/tips.js')}}"></script>
 {% endblock %}

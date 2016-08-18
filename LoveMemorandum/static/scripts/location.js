@@ -1,79 +1,42 @@
-var nearestStation = [],
-    earthLatLon,
-    marsLonLat, currentCity = $("#CurrentCity").text(),
-    map, t;
+var earthLatLon, map, t, marsLonLat,
+    nearestStation = [],
+    currentCity = $("#CurrentCity").text();
 
 function showLocation(position) {
     eWJ = [position.coords.latitude, position.coords.longitude];
-    $("#earth").html(eWJ[0] + " " + eWJ[1]);
-    initMap();
-    toMars(eWJ);
+    $("#location").val(eWJ[0] + "," + eWJ[1]);
 }
 
-function initMap() {
-    $("#walkMap").html("");
-    map = new AMap.Map('walkMap', {
-        resizeEnable: true,
-        keyboardEnable: true
-    });
-}
 
-function showPicture() {
-    search("Walking");
-}
-
-function search(Mode) {
-    if (t) t.clear();
-
-    transOptions = {
-        map: map,
-        city: currentCity,
-        cityd: currentCity
-    };
-    if (Mode === "Transfer") {
-        t = new AMap.Transfer(transOptions);
-    } else if (Mode === "Driving") {
-        t = new AMap.Driving(transOptions);
-    } else {
-        t = new AMap.Walking(transOptions);
+function displayAddress(latlng) {
+    if (!(latlng.hasClass("address"))) {
+        $.get('https://ditu.google.cn/maps/api/geocode/json', {
+            latlng: latlng.text(),
+            language: 'zh-CN'
+        }, function(data) {
+            if (data["status"] === "OK") {
+                last = data["results"].length - 1;
+                if (data["results"][last]["formatted_address"] === "中国") {
+                    toMars(latlng.text().split(","), latlng);
+                } else {
+                    latlng.html($("<a>", {
+                        href: 'https://www.google.cn/maps/place/' + latlng.text()
+                    }).html(data["results"][0]["formatted_address"]));
+                }
+                latlng.addClass("address");
+            }
+        });
     }
-    t.search(marsLonLat, nearestStation[1]);
 }
 
-function obtainNeighbor() {
-    dict = {
-        type: '150500',
-    };
-    if (currentCity != "") {
-        dict["city"] = currentCity;
-    }
-    var placeSearch = new AMap.PlaceSearch(dict);
-    var cpoint = [marsLonLat[0], marsLonLat[1]];
-    placeSearch.searchNearBy("地铁站", cpoint, 50000, function(status, result) {
-        pois = result["poiList"]["pois"];
-        sN = pois[0]["name"].split("(")[0];
-        $("#fromInput").val(sN);
-        nearestStation.push(sN);
-        nearestStation.push([pois[0]["location"]["lng"], pois[0]["location"]["lat"]]);
-        showPicture();
+function getAddresses() {
+    $('span#location').each(function() {
+        displayAddress($(this));
     });
 }
 
-function obtainLocation() {
-    var placeSearch = new AMap.Geocoder();
-    var cpoint = [marsLonLat[0], marsLonLat[1]];
-    placeSearch.getAddress(cpoint, function(status, result) {
-        console.log(result["regeocode"]["addressComponent"]["city"]);
-        a = result["regeocode"]["addressComponent"]["city"].replace("市", "")
-        $("#demo").html("您当前位于");
-        $("#demo").append($("<a>", {
-            href: a,
-            "class": "btn btn-info CityList"
-        }).html(result["regeocode"]["formattedAddress"]));
-    });
-}
 
-function toMars(eWJ) {
+function toMars(eWJ, p) {
     url = "https://restapi.amap.com/v3/assistant/coordinate/convert";
     $.get(url, {
         key: GaodeKey,
@@ -81,53 +44,46 @@ function toMars(eWJ) {
         coordsys: "gps"
     }, function(data) {
         marsLonLat = data["locations"].split(",");
-        $("#mars").html(marsLonLat[1] + " " + marsLonLat[0]);
-        if (currentCity != "") {
-            obtainNeighbor();
-        } else {
-            obtainLocation();
-        }
+        var placeSearch = new AMap.Geocoder();
+        placeSearch.getAddress(data["locations"], function(status, result) {
+            p.html($("<a>", {
+                href: "http://m.amap.com/navi/?dest=" + data["locations"] + "&destName=%E8%BF%99%E9%87%8C&hideRouteIcon=1&key=" + DisplayKey
+            }).html(result["regeocode"]["formattedAddress"]));
+        });
     });
 }
 
-function dN(s) {
-    $("#demo").html(s);
-}
-
-function gL() {
+function getLocation() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showLocation, sE);
+        navigator.geolocation.getCurrentPosition(showLocation, showError);
     } else {
-        dN("浏览器不支持定位。");
+        alert("您的浏览器不支持定位。");
     }
 }
 
-function sE(error) {
+function showError(error) {
     switch (error.code) {
         case error.PERMISSION_DENIED:
-            dN("您拒绝提供位置信息，因此我们无法为您定位。");
+            alert("您拒绝提供位置信息，因此我们无法为您定位。");
             break;
         case error.POSITION_UNAVAILABLE:
-            dN("我们不知道您在哪儿。");
+            alert("我们不知道您在哪儿。");
             break;
         case error.TIMEOUT:
-            dN("暂时无法获得位置信息。");
+            alert("暂时无法获得位置信息。");
             break;
         case error.UNKNOWN_ERROR:
-            dN("发生了无法处理的意外事件。");
+            alert("发生了无法处理的意外事件。");
             break;
     }
 }
 
-function rS() {
+function resize() {
     a = $("#navbarcontainer").height() + 20;
     $("body").attr("style", "padding-top: " + a + "px");
 }
-$(window).resize(rS);
+$(window).resize(resize);
 $(function() {
-    rS();
-    if ($("#CurrentCity").text() != "") {
-        init();
-    }
-    gL();
+    resize();
+    getLocation();
 });

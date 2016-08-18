@@ -23,13 +23,18 @@ class Entries(SQLite.Model):
     sender = SQLite.Column(SQLite.UnicodeText)
     time = SQLite.Column(SQLite.DateTime)
     url = SQLite.Column(SQLite.UnicodeText, nullable=True)
+    location = SQLite.Column(SQLite.UnicodeText, nullable=True)
 
     def __repr__(self):
         return '<Entry %r>' % self.title
 
+
 def newEntry(a):
-    new_entry = Entries(title=a["title"], text=a["text"],
-        sender=a["sender"], time=datetime.utcnow(), url=a["filename"] if "filename" in a else None
-        )
+    new_entry = Entries(
+        title=a["title"], text=a["text"],
+        sender=a["sender"], time=datetime.utcnow(),
+        url=a["filename"] if "filename" in a else None,
+        location=a["location"] if "location" in a else None
+    )
     SQLite.session.add(new_entry)
     SQLite.session.commit()

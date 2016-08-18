@@ -23,13 +23,10 @@ bootstrap = Bootstrap(app)
 moment = Moment(app)
 
 
-
-
-
 @app.before_request
 def before_request():  # 在执行用户请求之前
     init_database()
-    uploads_directory() 
+    uploads_directory()
     app.config['users'] = getAllUser()
     app.config['Title'] = u"{str} 的记事本".format(
         str=u" 和 ".join(app.config['users']))
@@ -83,11 +80,18 @@ def show_entries_ajax():
     for entry in entries.items:
         if entry.url:
             url = url_for('static',
-                          filename='userdata/uploads/{0}'.format(entry.url))
+                          filename='userdata/uploads/' + entry.url)
         else:
             url = ""
-        a.append({"title": entry.title, "text": entry.text,
-                  "sender": entry.sender, "time": entry.time, "url": url})
+        if entry.location:
+            loc = entry.location
+        else:
+            loc = ""
+        a.append({
+            "title": entry.title, "text": entry.text,
+            "sender": entry.sender, "time": entry.time, "url": url,
+            "location": loc
+        })
     # 将留言信息编组成字典，返回给渲染模板
     return jsonify({"items": a})
 
@@ -98,6 +102,7 @@ def new_entry():
     postform = PostForm()
     a = {"title": postform.title.data,
          "text": postform.text.data,
+         "location": postform.location.data,
          "sender": current_user.username}
     if postform.photo.has_file():  # 如果有文件
         a["filename"] = upload_file(a, postform.photo.data)

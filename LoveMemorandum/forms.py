@@ -11,6 +11,7 @@ class PostForm(Form):  # 定义发送表单
     title = StringField(u'标题')
     text = TextAreaField(u'正文')
     photo = FileField(u'图片', validators=[FileAllowed(['jpg', 'gif', 'png'])])
+    location = StringField(u'位置')
     submit = SubmitField(u'记录')
 
 
